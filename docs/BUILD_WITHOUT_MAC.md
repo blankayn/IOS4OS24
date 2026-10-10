@@ -4,6 +4,8 @@ You do not need to own a Mac. This project includes `.github/workflows/build-ipa
 
 The workflow runs automatically when source is pushed to `main`, and can also be started manually. The selected repository is `blankayn/IOS4OS24`. A compiled IPA is available only after its workflow completes successfully; see that repository’s Actions tab for the current status.
 
+**First build completed successfully:** [download the IPA artifact](https://github.com/blankayn/IOS4OS24/actions/runs/38024634655/artifacts/11659562828). Extract the ZIP and use `iOS26Legacy-unsigned.ipa` with Sideloadly. A verified local copy is also saved in this workspace’s `artifacts` folder. The downloaded app contains an arm64 executable with an iOS 12.0 minimum; device installation and performance have not yet been tested.
+
 ## Steps in your Windows browser
 
 1. Download and extract `artifacts/iOS26Legacy-source.zip` using File Explorer. Open the extracted `iOS26Legacy-source` folder.

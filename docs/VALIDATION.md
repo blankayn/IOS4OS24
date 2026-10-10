@@ -4,7 +4,7 @@
 
 Run `python tools/validate_project.py`. It parses the OpenStep project, checks object references, source/resource membership, deployment and scheme/test configuration, verifies plist/XML and all icon PNG sizes/CRCs, and checks declared URL schemes and forbidden API markers. It cannot type-check Swift, compile storyboard/assets, exercise UIKit, or measure frame rates.
 
-The creation environment is Windows with Python 3.11 and no Swift compiler, Xcode, iPhone simulator or connected iPhone runtime. No successful Xcode build or hardware performance result is claimed.
+The local creation environment is Windows with Python 3.11 and no Swift compiler, Xcode, iPhone simulator or connected iPhone runtime. A subsequent cloud Release build succeeded with Xcode 15.4 on GitHub’s macOS 14 runner. XCTest execution and hardware performance remain unverified.
 
 Local results on October 10, 2026:
 
@@ -12,6 +12,9 @@ Local results on October 10, 2026:
 - Plist, storyboard/scheme XML, URL allowlist, and all nine app icon renditions passed format, size and PNG checksum checks.
 - All thirteen Swift files parsed without grammar errors using `tree-sitter` 0.26.0 and `tree-sitter-swift` 0.7.4. This does not verify types, platform availability or runtime behavior. [Swift grammar](https://github.com/alex-pinkus/tree-sitter-swift), [Python parser API](https://github.com/tree-sitter/py-tree-sitter).
 - The source archive was checked for ZIP integrity. Its contents include the Xcode project, sources, assets, tests, build scripts and instructions; it excludes temporary validation dependencies and build output.
+- Cloud build for source commit `5c214431d213ef95f39c1e280c3c3caee39099f4` passed on October 10, 2026. [Build run and compiler log](https://github.com/blankayn/IOS4OS24/actions/runs/38024634655).
+- Downloaded artifact and IPA SHA-256 digests matched the cloud output. `tools/verify_ipa.py` verified the iPhone-only bundle, arm64 executable, iOS `12.0` minimum in both Info.plist and Mach-O load commands, compiled launch storyboard and asset catalog, and thirteen embedded Swift runtime libraries. No provisioning profile is included; Sideloadly must sign it.
+- IPA SHA-256: `d00548ba52542b2f3e7586b84ef6e46566745e90e4aba07b2abb45b1c648fef0`.
 
 To repeat the optional syntax check, install the two pinned packages into `build/validation-deps` as shown in `tools/check_swift_syntax.py`, then run `python tools/check_swift_syntax.py`. They are development-only tools and are not app dependencies.
 

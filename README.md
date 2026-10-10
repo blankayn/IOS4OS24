@@ -4,7 +4,7 @@ A complete Swift / UIKit iPhone application that recreates an iOS 26-inspired cl
 
 It does not replace the system Home Screen, lock the device, intercept system gestures, inject into SpringBoard, or require a jailbreak. Its glass is an approximation drawn with Core Graphics and Core Animation, not Apple’s iOS 26 Liquid Glass API. No SwiftUI, SF Symbols, third-party packages, private APIs, remote assets, analytics, or special entitlements are used.
 
-**Windows without a Mac:** use the included GitHub Actions workflow to compile on GitHub’s cloud Mac and download the IPA, then install with Sideloadly on Windows. See **[Build without owning a Mac](docs/BUILD_WITHOUT_MAC.md)**. The cloud workflow is prepared but has not run yet. The macOS 14 runner it uses is scheduled to retire on November 2, 2026; the guide includes that availability limit.
+**Windows without a Mac:** the project has been pushed to [blankayn/IOS4OS24](https://github.com/blankayn/IOS4OS24) and its [first cloud IPA build passed](https://github.com/blankayn/IOS4OS24/actions/runs/38024634655). Download the IPA artifact from that run and install with Sideloadly on Windows. See **[Build without owning a Mac](docs/BUILD_WITHOUT_MAC.md)**. The macOS 14 runner it uses is scheduled to retire on November 2, 2026; the guide includes that availability limit.
 
 ## Open and run
 
@@ -13,7 +13,7 @@ It does not replace the system Home Screen, lock the device, intercept system ge
 3. Select the app target → Signing & Capabilities → choose your team and change `com.example.ios26legacy` to your own unique bundle ID if building a signed app. Leave the deployment target at `12.0` and device family at iPhone.
 4. Select a connected iPhone 6/6s with iOS 12 or later, or an installed simulator, and Run. Xcode 15.4’s available simulators are newer than iOS 12; an actual iOS 12 device is needed to verify that OS.
 
-This source was created on Windows, where UIKit/Xcode are unavailable. Project structure and Swift grammar checks passed locally. Xcode compilation, XCTest, on-device rendering, and hardware performance have **not** been verified in this environment. See `docs/VALIDATION.md` for the remaining checks.
+This source was created on Windows. Project structure and Swift grammar checks passed locally, and the Release arm64 app compiled successfully with Xcode 15.4 on GitHub’s cloud Mac. The downloaded IPA passed checksum, resource, architecture and iOS 12 minimum-version checks. XCTest execution, on-device rendering and hardware performance have **not** been verified. See `docs/VALIDATION.md` for the remaining checks.
 
 ## Included features
 
