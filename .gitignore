@@ -1,0 +1,9 @@
+build/
+artifacts/
+DerivedData/
+*.ipa
+*.xcarchive
+xcuserdata/
+*.xcuserstate
+.DS_Store
+__pycache__/

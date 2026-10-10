@@ -1,0 +1,61 @@
+name: Build iOS 12 IPA
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    # macos-14 retirement is scheduled for 2026-11-02; see docs/BUILD_WITHOUT_MAC.md.
+    runs-on: macos-14
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify legacy Xcode toolchain
+        shell: bash
+        run: |
+          test -d "$DEVELOPER_DIR"
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
+      - name: Validate project structure
+        run: python3 tools/validate_project.py
+      - name: Compile and package device IPA
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          bash scripts/build-ipa.sh 2>&1 | tee build/xcodebuild.log
+      - name: Record artifact integrity
+        shell: bash
+        run: |
+          cd build
+          shasum -a 256 iOS26Legacy-unsigned.ipa > SHA256.txt
+          printf 'Commit: %s\nMinimum iOS: 12.0\nToolchain: Xcode 15.4\nSigning: unsigned; sign with Sideloadly\n' "$GITHUB_SHA" > BUILD-INFO.txt
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS26Legacy-IPA
+          path: |
+            build/iOS26Legacy-unsigned.ipa
+            build/SHA256.txt
+            build/BUILD-INFO.txt
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload compiler log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS26Legacy-build-log
+          path: build/xcodebuild.log
+          if-no-files-found: ignore
+          retention-days: 7
